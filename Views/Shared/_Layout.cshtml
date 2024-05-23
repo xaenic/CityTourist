@@ -13,14 +13,19 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - CityTourist - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="select-none  group-hover:block hover:block transition-opacity duration-300  p-3 rounded-md bg-white absolute text-gray-700 w-[150px] left-0">
+                <a asp-controller="Auth" asp-action="Logout" class="text-sm flex justify-start">Logout</a>
+            </div>
+            &copy; 2024 - CityTourist - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privallcy</a>
         </div>
+        
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
