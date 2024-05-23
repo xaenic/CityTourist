@@ -22,7 +22,7 @@ namespace SportsStore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SportsStore.Models.Product", b =>
+            modelBuilder.Entity("CityTourist.Models.AdminModel", b =>
             {
                 b.Property<long?>("Id")
                     .ValueGeneratedOnAdd()
