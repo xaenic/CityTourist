@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.Hosting;
 
 namespace CityTourist.Models;
