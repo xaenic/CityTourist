@@ -1,12 +1,18 @@
 ﻿using CityTourist.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CityTourist.Controllers
 {
     [Authorize]
     public class AdminController : Controller
     {
+        private readonly TouristDbContext dbContext;
+        public AdminController(TouristDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
         public IActionResult Index()
         {
             return View();
@@ -15,6 +21,7 @@ namespace CityTourist.Controllers
         public IActionResult City() {
 
             return View();
+
         }
 
         [HttpPost]
