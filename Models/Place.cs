@@ -14,5 +14,6 @@ namespace CityTourist.Models
         public string Tips { get; set; }
         public string Coordinates { get; set; } 
         public string[]? Images { get; set; }
+
     }
 }

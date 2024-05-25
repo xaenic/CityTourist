@@ -3,62 +3,54 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-
 <div class="text-gray-700">
     <h1 class="text-xl font-semibold">Manage Places Here</h1>
 
     <form asp-action="Account" method="post" class="border border-gray-200 p-5 bg-white rounded-md mt-10">
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-medium">Add A Cool Place</h1>
-           
         </div>
         <div class="grid-cols-2 grid mt-5">
             <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
                 <label class="text-xs mb-2">Select City </label>
-                <select asp-for="CityId" name="laboratory" class=" p-2 rounded-md w-full">
-                    @foreach( var city in ViewBag.Cities)
+                <select id="selectedCity" class="p-2 rounded-md w-full">
+                    @foreach (var city in ViewBag.Cities)
                     {
                         <option value="@city.Id">@city.Name</option>
                     }
-                   
-                    
                 </select>
             </div>
         </div>
-       
+
         <div class="flex flex-col gap-3 mt-5">
             <div class="grid grid-cols-2 gap-3">
+                <input id="placeId" type="hidden" />
                 <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
                     <label class="text-xs mb-2">Name of The Place</label>
-                    <input asp-for="Name"
-                           type="text"
-                           class="rounded-md bg-white text-sm w-full p-1 outline-none"
-                           value="@Model?.Name" />
+                    <input id="placeName" type="text" class="rounded-md bg-white text-sm w-full p-1 outline-none" />
                 </div>
                 <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
-                    <label class="text-xs mb-2 ">Google Maps Coordinates</label>
-                    <input asp-for="Coordinates"
-                           type="text"
-                           class="rounded-md bg-white text-sm w-full p-1 outline-none"
-                           value="@Model?.Coordinates" />
+                    <label class="text-xs mb-2">Google Maps Coordinates</label>
+                    <input id="placeCoordinates" type="text" class="rounded-md bg-white text-sm w-full p-1 outline-none" />
                 </div>
                 <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
                     <label class="text-xs mb-2">Description</label>
-                    <div class="bg-white p-3 flex rounded-md text-sm ">
-                        <textarea asp-for="Description" id="bio" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                    <div class="bg-white p-3 flex rounded-md text-sm">
+                        <textarea id="placeDescription" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
                     </div>
-                    
                 </div>
                 <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
                     <label class="text-xs mb-2">Write a Tips for this Place</label>
                     <div class="bg-white p-3 flex rounded-md text-sm ">
-                        <textarea asp-for="Tips" id="bio"  rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                        <textarea id="placeTips" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
                     </div>
-
                 </div>
             </div>
             <div class="flex justify-end">
-                <button class="bg-blue-500 text-white px-3 p-2 rounded-md">
+                <button type="button" class="bg-blue-500 text-white px-3 p-2 rounded-md mr-2" onclick="InsertPlace()">
+                    Insert
+                </button>
+                <button type="button" class="bg-blue-500 text-white px-3 p-2 rounded-md" onclick="savePlace()">
                     Save Changes
                 </button>
             </div>
@@ -66,10 +58,127 @@
     </form>
 </div>
 
+<table class="min-w-full bg-white mx-auto">
+    <thead>
+        <tr>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Name Place
+            </th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Google Maps Coordinate
+            </th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Description
+            </th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Action</th>
+        </tr>
+    </thead>
+    @foreach (var place in ViewBag.Place)
+    {
+        <tr onclick="displayPlace('@place.Id', '@place.Name', '@place.Coordinates', '@place.Description', '@place.Tips')">
+            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                @place.Name
+            </td>
+            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                @place.Coordinates
+            </td>
+            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                @place.Description
+            </td>
+            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md" onclick="deletePlace('@place.Id')">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
 
 <script>
+        function displayPlace(Id, name, coordinates, description, tips) {
+            document.getElementById("placeId").value = Id;
+            document.getElementById("placeName").value = name;
+            document.getElementById("placeCoordinates").value = coordinates;
+            document.getElementById("placeDescription").value = description;
+            document.getElementById("placeTips").value = tips;
+        }
 
-    $(document).ready(function () {
-      
-    });
+    function savePlace() {
+        var id = document.getElementById("placeId").value;
+        var cityId = document.getElementById("selectedCity").value;
+        var name = document.getElementById("placeName").value;
+        var coordinates = document.getElementById("placeCoordinates").value;
+        var description = document.getElementById("placeDescription").value;
+        var tips = document.getElementById("placeTips").value;
+
+        var placeData = {
+            Id: id,
+            CityId: cityId,
+            Name: name,
+            Coordinates: coordinates,
+            Description: description,
+            Tips: tips
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Account",
+            contentType: "application/json",
+            data: JSON.stringify(placeData),
+            success: function (response) {
+                console.log("Place saved successfully");
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error("Error saving place:", error);
+            }
+        });
+    }
+
+    function InsertPlace() {
+        var cityId = document.getElementById("selectedCity").value;
+        var name = document.getElementById("placeName").value;
+        var coordinates = document.getElementById("placeCoordinates").value;
+        var description = document.getElementById("placeDescription").value;
+        var tips = document.getElementById("placeTips").value;
+
+        var placeData = {
+            CityId: cityId,
+            Name: name,
+            Coordinates: coordinates,
+            Description: description,
+            Tips: tips
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Account",
+            contentType: "application/json",
+            data: JSON.stringify(placeData),
+            success: function (response) {
+                console.log("Place saved successfully");
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error("Error saving place:", error);
+            }
+        });
+    }
+
+    function deletePlace(id) {
+        if (confirm("Are you sure you want to delete this place?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeletePlace",
+                data: { id: id },
+                success: function (response) {
+                    console.log("Place deleted successfully");
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.error("Error deleting place:", error);
+                }
+            });
+        }
+    }
+
 </script>
