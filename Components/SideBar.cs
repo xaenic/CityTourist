@@ -11,7 +11,7 @@ namespace CityTourist.Components
             {
                 new NavLinkModel { Url = "/admin", Name="Dashboard", Controller="Admin"},
                 new NavLinkModel { Url = "/admin/city", Name="City",Controller="Admin"},
-                new NavLinkModel { Url = "/admin/places", Name="Places", Controller = "Admin"},
+                new NavLinkModel { Url = "/admin/place", Name="Place", Controller = "Admin"},
             };
             return View(links);
         }

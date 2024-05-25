@@ -10,12 +10,16 @@
 <body>
     <header>
     </header>
-    <div class="container  min-h-screen">
-        <main role="main" class="pb-3">
+    <div class="container flex min-h-screen bg-gradient-to-t from-slate-900 to-gray-900 min-h-screen ">
 
+        <!-- Sidebar -->
+        @await Component.InvokeAsync("SideBar")
+        <!-- Main Content -->
+        <main class="flex-1 p-4 lg:ml-64  lg:pt-5">
             @RenderBody()
         </main>
     </div>
+   
 
     <footer class="border-top footer text-muted">
         <div class="container">
