@@ -72,7 +72,7 @@ namespace Flexify.Controllers
                 new ClaimsPrincipal(claimsIdentity), properties
                 );
 
-            return RedirectToAction("", "App");
+            return RedirectToAction("", "Views");
         }
 
 

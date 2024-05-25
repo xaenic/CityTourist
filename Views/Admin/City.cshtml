@@ -2,7 +2,37 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<body class="bg-gray-300 h-screen flex items-center justify-center">
+    <div class="container mx-auto p-4">
+        <h1 class="text-xl font-semibold">Manage Cities Here</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white mx-auto">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            City Name
+                        </th>
+                        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            State
+                        </th>
 
-<div class="text-gray-700">
-    <h1 class="text-xl font-semibold">Manage Cities Here</h1>
-</div>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var city in Model.Cities)
+                    {
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                                @city.Name
+                            </td>
+                            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                                @city.State
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
