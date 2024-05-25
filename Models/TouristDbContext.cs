@@ -12,5 +12,8 @@ namespace CityTourist.Models
 
         public DbSet<AdminModel> Admin { get; set; }
 
+        public DbSet<City> City { get; set; }
+        public DbSet<Place> Place { get; set; }
+
     }
 }

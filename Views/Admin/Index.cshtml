@@ -1,5 +1,16 @@
-﻿  @*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<div class="flex min-h-screen bg-gradient-to-t from-slate-900 to-gray-900 min-h-screen ">
+
+    <!-- Sidebar -->
+    @await Component.InvokeAsync("SideBar")
+    <!-- Main Content -->
+    <main class="flex-1 p-4 lg:ml-64  lg:pt-5">
+        <?php require '../shared/topbar.php'; ?>
+        <div class="text-gray-700">
+          <h1 class="text-xl font-semibold">Welcome to City Tourist Management</h1>  
+        </div>
+    </main>
+</div>
