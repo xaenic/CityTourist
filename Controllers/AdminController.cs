@@ -33,6 +33,8 @@ namespace CityTourist.Controllers
         public IActionResult Place()
         {
 
+            ViewBag.Cities  = dbContext.City.Where( c => c.Id != 0).ToArray(); 
+            
             return View();
         }
 
@@ -40,7 +42,7 @@ namespace CityTourist.Controllers
         public IActionResult Place(Place place)
         {
 
-            return View();
+            return View(place);
         }
     }
 }

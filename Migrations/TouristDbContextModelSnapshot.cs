@@ -75,6 +75,9 @@ namespace CityTourist.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Coordinates")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,7 +99,23 @@ namespace CityTourist.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("Place");
+                });
+
+            modelBuilder.Entity("CityTourist.Models.Place", b =>
+                {
+                    b.HasOne("CityTourist.Models.City", null)
+                        .WithMany("Places")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CityTourist.Models.City", b =>
+                {
+                    b.Navigation("Places");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CityTourist.Migrations
 {
     [DbContext(typeof(TouristDbContext))]
-    [Migration("20240525081745_placesandcity")]
-    partial class placesandcity
+    [Migration("20240525102100_AddedCityAndPlaces")]
+    partial class AddedCityAndPlaces
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,9 @@ namespace CityTourist.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Coordinates")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,7 +102,23 @@ namespace CityTourist.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("Place");
+                });
+
+            modelBuilder.Entity("CityTourist.Models.Place", b =>
+                {
+                    b.HasOne("CityTourist.Models.City", null)
+                        .WithMany("Places")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CityTourist.Models.City", b =>
+                {
+                    b.Navigation("Places");
                 });
 #pragma warning restore 612, 618
         }

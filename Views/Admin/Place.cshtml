@@ -1,16 +1,75 @@
-﻿@{
+﻿@model Place
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 
 <div class="text-gray-700">
     <h1 class="text-xl font-semibold">Manage Places Here</h1>
+
+    <form asp-action="Account" method="post" class="border border-gray-200 p-5 bg-white rounded-md mt-10">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-medium">Add A Cool Place</h1>
+           
+        </div>
+        <div class="grid-cols-2 grid mt-5">
+            <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                <label class="text-xs mb-2">Select City </label>
+                <select asp-for="CityId" name="laboratory" class=" p-2 rounded-md w-full">
+                    @foreach( var city in ViewBag.Cities)
+                    {
+                        <option value="@city.Id">@city.Name</option>
+                    }
+                   
+                    
+                </select>
+            </div>
+        </div>
+       
+        <div class="flex flex-col gap-3 mt-5">
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                    <label class="text-xs mb-2">Name of The Place</label>
+                    <input asp-for="Name"
+                           type="text"
+                           class="rounded-md bg-white text-sm w-full p-1 outline-none"
+                           value="@Model?.Name" />
+                </div>
+                <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                    <label class="text-xs mb-2 ">Google Maps Coordinates</label>
+                    <input asp-for="Coordinates"
+                           type="text"
+                           class="rounded-md bg-white text-sm w-full p-1 outline-none"
+                           value="@Model?.Coordinates" />
+                </div>
+                <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                    <label class="text-xs mb-2">Description</label>
+                    <div class="bg-white p-3 flex rounded-md text-sm ">
+                        <textarea asp-for="Description" id="bio" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                    </div>
+                    
+                </div>
+                <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                    <label class="text-xs mb-2">Write a Tips for this Place</label>
+                    <div class="bg-white p-3 flex rounded-md text-sm ">
+                        <textarea asp-for="Tips" id="bio"  rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button class="bg-blue-500 text-white px-3 p-2 rounded-md">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
 
 
 <script>
 
     $(document).ready(function () {
-       alert('asdsa')
+      
     });
 </script>
