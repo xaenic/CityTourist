@@ -18,10 +18,14 @@ namespace CityTourist.Controllers
             return View();
         }
 
-        public IActionResult City() {
+        public IActionResult City()
+        {
+            City[] cities = Array.Empty<City>();
 
-            return View();
 
+            cities = dbContext.City.ToArray();
+
+            return View(cities);
         }
 
         [HttpPost]
@@ -29,6 +33,62 @@ namespace CityTourist.Controllers
         {
 
             return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(City city)
+        {
+            if (ModelState.IsValid)
+            {
+                dbContext.Update(city);
+                dbContext.SaveChanges();
+                return RedirectToAction("City");
+            }
+            return View(city);
+
+            var Cities  = dbContext.City.Where( c => c.Id != 0).ToArray(); 
+            
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var city = dbContext.City.FirstOrDefault(c => c.Id == id);
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            dbContext.City.Remove(city);
+            dbContext.SaveChanges();
+
+            TempData["Success"] = "City deleted successfully!";
+            return RedirectToAction("City");
+        }
+        [HttpPost]
+        public IActionResult Insert(City model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newCity = new City
+                {
+                    Name = model.Name,
+                    State = model.State
+                };
+
+                dbContext.City.Add(newCity);
+                dbContext.SaveChanges();
+
+                TempData["Success"] = "City inserted successfully!";
+                return RedirectToAction("City");
+            }
+            else
+            {
+                return View("Index", model);
+            }
         }
         public IActionResult Place()
         {

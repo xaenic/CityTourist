@@ -1,4 +1,5 @@
-﻿@{
+﻿@model City[]
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -15,11 +16,86 @@
                         <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             State
                         </th>
-
+                        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
                     </tr>
                 </thead>
+                <button type="button" class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded" onclick="openInsertModal()">Insert City</button>
                 <tbody>
-                    @foreach (var city in Model.Cities)
+
+                    <div class="modal fixed inset-0 flex items-center justify-center z-50 overflow-x-auto" id="insertModal" style="display: none;">
+
+                        <div class="modal-overlay fixed inset-0 bg-black opacity-50" onclick="closeInsertModal()"></div>
+                        <div class="modal-container bg-white w-1/2 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                            <div class="modal-content py-4 text-left px-6">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-xl font-bold">Insert City</h5>
+                                    <button type="button" class="close" onclick="closeInsertModal()" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="insertForm" method="post" action="/Admin/Insert" class="modal-body">
+                                    <div class="form-group mb-4">
+                                        <label for="cityName" class="block text-gray-700 text-sm font-bold mb-2">City Name:</label>
+                                        <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="cityName" name="Name" required>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="cityState" class="block text-gray-700 text-sm font-bold mb-2">State:</label>
+                                        <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="cityState" name="State" required>
+                                    </div>
+                                    <div class="modal-footer mt-6">
+                                        <button type="button" class="bg-blue-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded" onclick="closeInsertModal()">Close</button>
+                                        <button type="submit" class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">Insert City</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function openInsertModal() {
+                            var modal = document.getElementById("insertModal");
+                            modal.style.display = "flex";
+                        }
+
+                        function closeInsertModal() {
+                            var modal = document.getElementById("insertModal");
+                            modal.style.display = "none";
+                        }
+                        function submitForm() {
+                            var cityName = document.getElementById("cityName").value;
+                            var cityState = document.getElementById("cityState").value;
+
+                            var formData = new FormData();
+                            formData.append("Name", cityName);
+                            formData.append("State", cityState);
+
+
+                            fetch("/Admin/Insert", {
+                                method: "POST",
+                                body: formData
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        return response.json();
+                                    }
+                                    throw new Error("Network response was not ok.");
+                                })
+                                .then(data => {
+
+                                    console.log(data);
+                                    closeInsertModal();
+
+                                })
+                                .catch(error => {
+                                    console.error("There was a problem with your fetch operation:", error);
+                                });
+                        }
+                    </script>
+
+
+                    @foreach (var city in Model)
                     {
                         <tr>
                             <td class="py-2 px-4 border-b border-gray-200 text-sm">
@@ -28,7 +104,43 @@
                             <td class="py-2 px-4 border-b border-gray-200 text-sm">
                                 @city.State
                             </td>
+                            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                                <button class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded" onclick="openModalUpdate('@city.Id')">Edit City</button>
+                                <form id="deleteForm_@city.Id" method="post" class="inline" asp-controller="Admin" asp-action="Delete">
+                                    <input type="hidden" name="id" value="@city.Id" />
+                                    <button type="submit" class="btn btn-danger ml-2 border border-red-500 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded delete-button">Delete</button>
+                                </form>
+                            </td>
                         </tr>
+                        <div id="myModalUpdate_@city.Id" class="modal hidden fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                            <div class="modal-container bg-white w-1/2 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto p-6">
+                                <div class="modal-closeUpdate cursor-pointer z-50" onclick="closeModalUpdate('@city.Id')">
+                                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                        <path d="M18 1.5L16.5 0 9 7.5 1.5 0 0 1.5 7.5 9 0 16.5 1.5 18 9 10.5 16.5 18 18 16.5 10.5 9 18 1.5z" />
+                                    </svg>
+                                </div>
+                                <div class="modal-contentUpdate py-4 text-left px-6">
+                                    <h3 class="text-center mb-4">Edit City</h3>
+                                    <form asp-action="Edit" method="post">
+                                        <input type="hidden" asp-for="@city.Id" />
+                                        <div class="form-group">
+                                            <label asp-for="@city.Name" class="font-semibold">City Name:</label>
+                                            <input asp-for="@city.Name" class="form-control w-full" />
+                                            <span asp-validation-for="@city.Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="@city.State" class="font-semibold">State:</label>
+                                            <input asp-for="@city.State" class="form-control w-full" />
+                                            <span asp-validation-for="@city.State" class="text-danger"></span>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded">
+                                            Save Changes
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </tbody>
             </table>
@@ -36,3 +148,15 @@
     </div>
 </body>
 
+<script>
+    function openModalUpdate(cityId) {
+        var modal = document.getElementById("myModalUpdate_" + cityId);
+        modal.classList.remove("hidden");
+    }
+
+    function closeModalUpdate(cityId) {
+        var modal = document.getElementById("myModalUpdate_" + cityId);
+        modal.classList.add("hidden");
+    }
+
+</script>
