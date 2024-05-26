@@ -10,7 +10,13 @@
             <table class="min-w-full bg-white mx-auto">
                 <thead>
                     <tr>
+                          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            City Name
+                        </th>
                         <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Image
+                        </th
+                          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             City Name
                         </th>
                         <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -39,10 +45,24 @@
                                     <div class="form-group mb-4">
                                         <label for="cityName" class="block text-gray-700 text-sm font-bold mb-2">City Name:</label>
                                         <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="cityName" name="Name" required>
-                                    </div>
+                                    </div
                                     <div class="form-group mb-4">
-                                        <label for="cityState" class="block text-gray-700 text-sm font-bold mb-2">State:</label>
-                                        <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="cityState" name="State" required>
+                                        <label for="Image" class="block text-gray-700 text-sm font-bold mb-2">City Image:</label>
+                                        <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="image" name="Image" required>
+                                    </div>
+                                      <div class="form-group mb-4 mx-6">
+                                        <label class="text-xs mb-2">Description of City</label>
+                                        <div class="bg-white border p-3 flex rounded-md text-sm ">
+                                            <textarea id="placeTips" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4 mx-6">
+    <label for="Image" class="block text-gray-700 text-sm font-bold mb-2">State:</label>
+                                        <select id="Image" name="State" class="border p-2 rounded-md w-full">
+                                                <option value="Luzon">Luzon</option>
+                                                <option value="Visayas">Visayas</option>  
+                                                <option value="Mindanao">Mindanao</option>
+                                        </select>
                                     </div>
                                     <div class="modal-footer mt-6">
                                         <button type="button" class="bg-blue-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded" onclick="closeInsertModal()">Close</button>
@@ -66,9 +86,11 @@
                         function submitForm() {
                             var cityName = document.getElementById("cityName").value;
                             var cityState = document.getElementById("cityState").value;
+                            var Image = document.getElementById("Image").value;
 
                             var formData = new FormData();
                             formData.append("Name", cityName);
+                            formData.append("Image", Image);
                             formData.append("State", cityState);
 
 
@@ -98,6 +120,12 @@
                     @foreach (var city in Model)
                     {
                         <tr>
+                              <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                                @city.Id
+                            </td>
+                              <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                               <img src="@city.Image" class="w-14 h-14 rounded-lg"/>
+                            </td>
                             <td class="py-2 px-4 border-b border-gray-200 text-sm">
                                 @city.Name
                             </td>

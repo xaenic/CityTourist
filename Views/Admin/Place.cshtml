@@ -10,15 +10,26 @@
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-medium">Add A Cool Place</h1>
         </div>
-        <div class="grid-cols-2 grid mt-5">
+        <div class="grid-cols-2 grid mt-5 gap-3">
             <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
-                <label class="text-xs mb-2">Select City </label>
+                <label class="text-xs mb-2">Select Province </label>
                 <select id="selectedCity" class="p-2 rounded-md w-full">
                     @foreach (var city in ViewBag.Cities)
                     {
                         <option value="@city.Id">@city.Name</option>
                     }
                 </select>
+            </div>
+            <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                <label class="text-xs mb-2">Category</label>
+                <select id="category" class="p-2 rounded-md w-full">
+                  
+                        <option value="Beaches">Beaches</option>
+                        <option value="Nature">Nature</option>  
+                        <option value="Musuem">Musuem</option>
+                    
+                </select>
+               
             </div>
         </div>
 
@@ -43,6 +54,15 @@
                     <label class="text-xs mb-2">Write a Tips for this Place</label>
                     <div class="bg-white p-3 flex rounded-md text-sm ">
                         <textarea id="placeTips" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                    </div>
+                </div>
+                <div class="bg-gray-200 p-2 rounded-md flex flex-col items-start">
+                    <label class="text-xs mb-2">Images</label>
+                    <div id="imageInputContainer" class="w-full">
+                        <div class="flex items-center mb-2 w-full">
+                            <input type="text" class="imageUrlInput rounded-md bg-white text-sm w-full p-1 outline-none" placeholder="Image URL" />
+                            <button type="button" class="bg-blue-500 text-white px-3 p-1 rounded-md ml-2 addImageButton w-full">Add More</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,9 +95,9 @@
     </thead>
     @foreach (var place in ViewBag.Place)
     {
-        <tr onclick="displayPlace('@place.Id', '@place.Name', '@place.Coordinates', '@place.Description', '@place.Tips')">
+        <tr onclick="displayPlace('@place.Id', '@place.Name', '@place.Coordinates', '@place.Description', '@place.Tips', '@place.Images')">
             <td class="py-2 px-4 border-b border-gray-200 text-sm">
-                @place.Name
+               @place.Name
             </td>
             <td class="py-2 px-4 border-b border-gray-200 text-sm">
                 @place.Coordinates
@@ -90,79 +110,144 @@
             </td>
         </tr>
     }
-
 </table>
 
 <script>
-        function displayPlace(Id, name, coordinates, description, tips) {
-            document.getElementById("placeId").value = Id;
-            document.getElementById("placeName").value = name;
-            document.getElementById("placeCoordinates").value = coordinates;
-            document.getElementById("placeDescription").value = description;
-            document.getElementById("placeTips").value = tips;
+    $(document).ready(function () {
+        // Add more image URL inputs
+        $('#imageInputContainer').on('click', '.addImageButton', function () {
+            const newImageInput = `
+                    <div class="flex items-center mb-2">
+                        <input type="text" class="imageUrlInput rounded-md bg-white text-sm w-full p-1 outline-none" placeholder="Image URL" />
+                        <button type="button" class="bg-red-500 text-white px-3 p-1 rounded-md ml-2 removeImageButton">Remove</button>
+                    </div>`;
+            $('#imageInputContainer').append(newImageInput);
+        });
+
+        // Remove image URL input
+        $('#imageInputContainer').on('click', '.removeImageButton', function () {
+            $(this).parent().remove();
+        });
+    });
+
+    function getImages() {
+        const images = [];
+        $('.imageUrlInput').each(function () {
+            const imageUrl = $(this).val();
+            if (imageUrl) {
+                images.push(imageUrl);
+            }
+        });
+        return images;
+    }
+
+    function displayPlace(Id, name, coordinates, description, tips, images) {
+        document.getElementById("placeId").value = Id;
+        document.getElementById("placeName").value = name;
+        document.getElementById("placeCoordinates").value = coordinates;
+        document.getElementById("placeDescription").value = description;
+        document.getElementById("placeTips").value = tips;
+
+        // Clear and populate image inputs
+        $('#imageInputContainer').empty();
+        const imageArray = images.split(',');
+        imageArray.forEach(image => {
+            const newImageInput = `
+                    <div class="flex items-center mb-2">
+                        <input type="text" class="imageUrlInput rounded-md bg-white text-sm w-full p-1 outline-none" placeholder="Image URL" value="${image}" />
+                        <button type="button" class="bg-red-500 text-white px-3 p-1 rounded-md ml-2 removeImageButton">Remove</button>
+                    </div>`;
+            $('#imageInputContainer').append(newImageInput);
+        });
+        // Add one empty input for adding new images
+        const emptyImageInput = `
+                <div class="flex items-center mb-2">
+                    <input type="text" class="imageUrlInput rounded-md bg-white text-sm w-full p-1 outline-none" placeholder="Image URL" />
+                    <button type="button" class="bg-blue-500 text-white px-3 p-1 rounded-md ml-2 addImageButton">Add More</button>
+                </div>`;
+        $('#imageInputContainer').append(emptyImageInput);
+    }
+
+    function getImages() {
+    const images = [];
+    $('.imageUrlInput').each(function () {
+        const imageUrl = $(this).val();
+        if (imageUrl) {
+            images.push(imageUrl);
         }
+    });
+    return images;
+}
 
-    function savePlace() {
-        var id = document.getElementById("placeId").value;
-        var cityId = document.getElementById("selectedCity").value;
-        var name = document.getElementById("placeName").value;
-        var coordinates = document.getElementById("placeCoordinates").value;
-        var description = document.getElementById("placeDescription").value;
-        var tips = document.getElementById("placeTips").value;
+function savePlace() {
+    const id = document.getElementById("placeId").value;
+    const cityId = document.getElementById("selectedCity").value;
+        const name = document.getElementById("placeName").value;
+        const category = document.getElementById("category").value;
+    const coordinates = document.getElementById("placeCoordinates").value;
+    const description = document.getElementById("placeDescription").value;
+    const tips = document.getElementById("placeTips").value;
+    const images = getImages();
 
-        var placeData = {
-            Id: id,
-            CityId: cityId,
+    const placeData = {
+        Id: id,
+        CityId: cityId,
             Name: name,
-            Coordinates: coordinates,
-            Description: description,
-            Tips: tips
-        };
+            Category: category,
+        Coordinates: coordinates,
+        Description: description,
+        Tips: tips,
+        Images: images
+    };
 
-        $.ajax({
-            type: "POST",
-            url: "/Admin/Account",
-            contentType: "application/json",
-            data: JSON.stringify(placeData),
-            success: function (response) {
-                console.log("Place saved successfully");
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error("Error saving place:", error);
-            }
-        });
-    }
+    $.ajax({
+        type: "POST",
+        url: "/Admin/Account",
+        contentType: "application/json",
+        data: JSON.stringify(placeData),
+        success: function (response) {
+            console.log("Place saved successfully");
+            window.location.reload();
+        },
+        error: function (error) {
+            console.error("Error saving place:", error);
+        }
+    });
+}
 
-    function InsertPlace() {
-        var cityId = document.getElementById("selectedCity").value;
-        var name = document.getElementById("placeName").value;
-        var coordinates = document.getElementById("placeCoordinates").value;
-        var description = document.getElementById("placeDescription").value;
-        var tips = document.getElementById("placeTips").value;
+function InsertPlace() {
+    const cityId = document.getElementById("selectedCity").value;
+    const name = document.getElementById("placeName").value;
+    const coordinates = document.getElementById("placeCoordinates").value;
+    const description = document.getElementById("placeDescription").value;
+    const tips = document.getElementById("placeTips").value;
+    const images = getImages();
+        const category = document.getElementById("category").value;
+    const placeData = {
+        CityId: cityId,
+        Name: name,
+        Category: category,
+        Coordinates: coordinates,
+        Description: description,
+        Tips: tips,
+        Images: images
+    };
 
-        var placeData = {
-            CityId: cityId,
-            Name: name,
-            Coordinates: coordinates,
-            Description: description,
-            Tips: tips
-        };
+    $.ajax({
+        type: "POST",
+        url: "/Admin/Account",
+        contentType: "application/json",
+        data: JSON.stringify(placeData),
+        success: function (response) {
+            console.log("Place saved successfully");
+            window.location.reload();
+        },
+        error: function (error) {
+            console.error("Error saving place:", error);
+        }
+    });
+}
 
-        $.ajax({
-            type: "POST",
-            url: "/Admin/Account",
-            contentType: "application/json",
-            data: JSON.stringify(placeData),
-            success: function (response) {
-                console.log("Place saved successfully");
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error("Error saving place:", error);
-            }
-        });
-    }
 
     function deletePlace(id) {
         if (confirm("Are you sure you want to delete this place?")) {
@@ -180,5 +265,4 @@
             });
         }
     }
-
 </script>

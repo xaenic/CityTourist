@@ -76,7 +76,8 @@ namespace CityTourist.Controllers
                 var newCity = new City
                 {
                     Name = model.Name,
-                    State = model.State
+                    State = model.State,
+                    Image = model.Image
                 };
 
                 dbContext.City.Add(newCity);
@@ -87,7 +88,7 @@ namespace CityTourist.Controllers
             }
             else
             {
-                return View("Index", model);
+                return RedirectToAction("City");
             }
         }
         public IActionResult Place()
