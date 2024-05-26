@@ -93,8 +93,9 @@ namespace CityTourist.Controllers
         public IActionResult Place()
         {
 
-            ViewBag.Cities  = dbContext.City.Where( c => c.Id != 0).ToArray(); 
-            
+            ViewBag.Cities  = dbContext.City.Where( c => c.Id != 0).ToArray();
+            ViewBag.place = dbContext.Place.Where(c => c.Id != 0).ToArray();
+
             return View();
         }
 
@@ -104,5 +105,40 @@ namespace CityTourist.Controllers
 
             return View(place);
         }
+        [HttpPost]
+        public IActionResult Account([FromBody] Place place)
+        {
+            if (ModelState.IsValid)
+            {
+                if (place.Id == 0)
+                {
+                 
+                    dbContext.Place.Add(place);
+                }
+                else
+                {
+                    dbContext.Place.Update(place);
+                }
+
+                dbContext.SaveChanges();
+                return Ok(); 
+            }
+            return BadRequest(ModelState); 
+        }
+        [HttpPost]
+        public IActionResult DeletePlace(int id)
+        {
+            var place = dbContext.Place.Find(id);
+            if (place == null)
+            {
+                return NotFound(); // Place not found
+            }
+
+            dbContext.Place.Remove(place);
+            dbContext.SaveChanges();
+            return Ok();
+        }
+
+
     }
 }
