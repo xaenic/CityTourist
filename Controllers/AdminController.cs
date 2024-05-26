@@ -43,14 +43,10 @@ namespace CityTourist.Controllers
             {
                 dbContext.Update(city);
                 dbContext.SaveChanges();
-                return RedirectToAction("City");
+                return RedirectToAction("City"); 
             }
-            return View(city);
 
-            var Cities  = dbContext.City.Where( c => c.Id != 0).ToArray(); 
-            
-            return View();
-
+            return View(city); 
         }
 
         [HttpPost]
@@ -69,30 +65,24 @@ namespace CityTourist.Controllers
             return RedirectToAction("City");
         }
         [HttpPost]
-        public IActionResult Insert(City model)
+
+
+        public IActionResult Insert(City city)
         {
             if (ModelState.IsValid)
             {
-                var newCity = new City
-                {
-                    Name = model.Name,
-                    State = model.State,
-                    Image = model.Image,
-                    Description = model.Description
-                };
 
-                dbContext.City.Add(newCity);
+                dbContext.City.Add(city);
                 dbContext.SaveChanges();
 
-                TempData["Success"] = "City inserted successfully!";
-                return RedirectToAction("City");
+                return Json(new { success = true, message = "City inserted successfully!" });
             }
-            else
-            {
-                return RedirectToAction("City");
-            }
+
+            return Json(new { success = false, message = "There was an error in the form submission." });
         }
-        public IActionResult Place()
+    
+
+    public IActionResult Place()
         {
 
             ViewBag.Cities  = dbContext.City.Where( c => c.Id != 0).ToArray();

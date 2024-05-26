@@ -10,14 +10,14 @@
             <table class="min-w-full bg-white mx-auto">
                 <thead>
                     <tr>
+                        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            CITY ID
+                        </th>
                           <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             City Name
                         </th>
                         <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             Image
-                        </th
-                          <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            City Name
                         </th>
                         <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             State
@@ -41,82 +41,87 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form id="insertForm" method="post" action="/Admin/Insert" class="modal-body">
-                                    <div class="form-group mb-4">
-                                        <label for="cityName" class="block text-gray-700 text-sm font-bold mb-2">City Name:</label>
-                                        <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="cityName" name="Name" required>
-                                    </div
-                                    <div class="form-group mb-4">
-                                        <label for="Image" class="block text-gray-700 text-sm font-bold mb-2">City Image:</label>
-                                        <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="image" name="Image" required>
+                                <div class="modal" id="insertModal">
+                                    <div class="modal-content">
+                                        <form id="insertForm" method="post" action="/Admin/Insert" class="modal-body">
+                                            <div class="form-group mb-4">
+                                                <label for="cityName" class="block text-gray-700 text-sm font-bold mb-2">City Name:</label>
+                                                <input type="text" class="form-input w-full border rounded-md py-2 px-3" id="cityName" name="Name" required>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="Image" class="block text-gray-700 text-sm font-bold mb-2">City Image:</label>
+                                                <input type="url" class="form-input w-full border rounded-md py-2 px-3" id="Image" name="Image" required>
+                                            </div>
+                                            <div class="form-group mb-4 mx-6">
+                                                <label class="text-xs mb-2">Description of City</label>
+                                                <div class="bg-white border p-3 flex rounded-md text-sm">
+                                                    <textarea id="Description" name="Description" rows="6" class="text-xs w-full bg-transparent outline-none"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4 mx-6">
+                                                <label for="State" class="block text-gray-700 text-sm font-bold mb-2">State:</label>
+                                                <select id="State" name="State" class="border p-2 rounded-md w-full">
+                                                    <option value="Luzon">Luzon</option>
+                                                    <option value="Visayas">Visayas</option>
+                                                    <option value="Mindanao">Mindanao</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="modal-footer mt-6">
+                                                <button type="button" class="bg-blue-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded" onclick="closeInsertModal()">Close</button>
+                                                <button type="submit" class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">Insert City</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                      <div class="form-group mb-4 mx-6">
-                                        <label class="text-xs mb-2">Description of City</label>
-                                        <div class="bg-white border p-3 flex rounded-md text-sm ">
-                                            <textarea id="Description " name="Description" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-4 mx-6">
-    <label for="Image" class="block text-gray-700 text-sm font-bold mb-2">State:</label>
-                                        <select id="Image" name="State" class="border p-2 rounded-md w-full">
-                                                <option value="Luzon">Luzon</option>
-                                                <option value="Visayas">Visayas</option>  
-                                                <option value="Mindanao">Mindanao</option>
-                                        </select>
-                                    </div>
-                                    <div class="modal-footer mt-6">
-                                        <button type="button" class="bg-blue-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded" onclick="closeInsertModal()">Close</button>
-                                        <button type="submit" class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">Insert City</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                                </div>
 
-                    <script>
-                        function openInsertModal() {
-                            var modal = document.getElementById("insertModal");
-                            modal.style.display = "flex";
-                        }
-
-                        function closeInsertModal() {
-                            var modal = document.getElementById("insertModal");
-                            modal.style.display = "none";
-                        }
-                        function submitForm() {
-                            var cityName = document.getElementById("cityName").value;
-                            var cityState = document.getElementById("cityState").value;
-                            var desc = document.getElementById("Description").value;
-                            var Image = document.getElementById("Image").value;
-
-                            var formData = new FormData();
-                            formData.append("Name", cityName);
-                            formData.append("Image", Image);
-                            formData.append("State", cityState);
-                            formData.append("Description", desc);
-
-
-                            fetch("/Admin/Insert", {
-                                method: "POST",
-                                body: formData
-                            })
-                                .then(response => {
-                                    if (response.ok) {
-                                        return response.json();
+                                <script>
+                                    function openInsertModal() {
+                                        var modal = document.getElementById("insertModal");
+                                        modal.style.display = "flex";
                                     }
-                                    throw new Error("Network response was not ok.");
-                                })
-                                .then(data => {
 
-                                    console.log(data);
-                                    closeInsertModal();
+                                    function closeInsertModal() {
+                                        var modal = document.getElementById("insertModal");
+                                        modal.style.display = "none";
+                                    }
 
-                                })
-                                .catch(error => {
-                                    console.error("There was a problem with your fetch operation:", error);
-                                });
-                        }
-                    </script>
+                                    function submitForm(event) {
+                                        event.preventDefault();
+
+                                        var cityName = document.getElementById("cityName").value;
+                                        var cityState = document.getElementById("State").value;
+                                        var desc = document.getElementById("Description").value;
+                                        var image = document.getElementById("Image").value;
+
+                                        var formData = new FormData();
+                                        formData.append("Name", cityName);
+                                        formData.append("Image", image);
+                                        formData.append("State", cityState);
+                                        formData.append("Description", desc);
+
+                                        fetch("/Admin/Insert", {
+                                            method: "POST",
+                                            body: formData
+                                        })
+                                            .then(response => {
+                                                if (response.ok) {
+                                                    return response.json();
+                                                }
+                                                throw new Error("Network response was not ok.");
+                                            })
+                                            .then(data => {
+                                                console.log(data);
+                                                closeInsertModal();
+                                                location.reload();
+                                            })
+                                            .catch(error => {
+                                                console.error("There was a problem with your fetch operation:", error);
+                                            });
+                                    }
+
+                                    document.getElementById("insertForm").addEventListener("submit", submitForm);
+                                </script>
 
 
                     @foreach (var city in Model)
@@ -125,11 +130,12 @@
                               <td class="py-2 px-4 border-b border-gray-200 text-sm">
                                 @city.Id
                             </td>
-                              <td class="py-2 px-4 border-b border-gray-200 text-sm">
-                               <img src="@city.Image" class="w-14 h-14 rounded-lg"/>
-                            </td>
+                         
                             <td class="py-2 px-4 border-b border-gray-200 text-sm">
                                 @city.Name
+                            </td>
+                            <td class="py-2 px-4 border-b border-gray-200 text-sm">
+                                <img src="@city.Image" class="w-14 h-14 rounded-lg" />
                             </td>
                             <td class="py-2 px-4 border-b border-gray-200 text-sm">
                                 @city.State
@@ -152,17 +158,31 @@
                                 </div>
                                 <div class="modal-contentUpdate py-4 text-left px-6">
                                     <h3 class="text-center mb-4">Edit City</h3>
-                                    <form asp-action="Edit" method="post">
-                                        <input type="hidden" asp-for="@city.Id" />
+                                    <form id="editForm_@city.Id" asp-action="Edit" method="post">
+                                        <input type="hidden" name="Id" value="@city.Id" />
                                         <div class="form-group">
-                                            <label asp-for="@city.Name" class="font-semibold">City Name:</label>
-                                            <input asp-for="@city.Name" class="form-control w-full" />
-                                            <span asp-validation-for="@city.Name" class="text-danger"></span>
+                                            <label class="font-semibold">City Name:</label>
+                                            <input name="Name" value="@city.Name" class="form-control w-full" />
+                                            <span class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="@city.State" class="font-semibold">State:</label>
-                                            <input asp-for="@city.State" class="form-control w-full" />
-                                            <span asp-validation-for="@city.State" class="text-danger"></span>
+                                            <label class="font-semibold">State:</label>
+                                            <input name="Image" value="@city.Image" class="form-control w-full" />
+                                            <span class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">State:</label>
+                                            <select name="State" class="border p-2 rounded-md w-full">
+                                                <option value="Luzon">Luzon</option>
+                                                <option value="Visayas">Visayas</option>
+                                                <option value="Mindanao">Mindanao</option>
+                                            </select>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="font-semibold">Description:</label>
+                                            <textarea name="Description" class="form-control w-full" rows="5">@city.Description</textarea>
+                                            <span class="text-danger"></span>
                                         </div>
                                         <button type="submit" class="btn btn-primary border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded">
                                             Save Changes
@@ -171,7 +191,7 @@
                                 </div>
                             </div>
                         </div>
-                    }
+                                }
                 </tbody>
             </table>
         </div>
@@ -188,5 +208,27 @@
         var modal = document.getElementById("myModalUpdate_" + cityId);
         modal.classList.add("hidden");
     }
+    function submitForm(event) {
+        event.preventDefault();
+
+        var formData = new FormData(document.getElementById("editForm"));
+
+        fetch("/Admin/Edit", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/success-page";
+                } else {
+                    throw new Error("Network response was not ok.");
+                }
+            })
+            .catch(error => {
+                console.error("There was a problem with your fetch operation:", error);
+            });
+    }
+
+    document.getElementById("editForm").addEventListener("submit", submitForm);
 
 </script>
