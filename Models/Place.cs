@@ -15,6 +15,9 @@ namespace CityTourist.Models
         public string Coordinates { get; set; } 
         public string Category { get; set; }
         public string[]? Images { get; set; }
+        public string Routes { get; set; }
 
+
+        public City City { get; set; }
     }
 }

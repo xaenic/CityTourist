@@ -105,6 +105,10 @@ namespace CityTourist.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Routes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Tips")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -118,11 +122,13 @@ namespace CityTourist.Migrations
 
             modelBuilder.Entity("CityTourist.Models.Place", b =>
                 {
-                    b.HasOne("CityTourist.Models.City", null)
+                    b.HasOne("CityTourist.Models.City", "City")
                         .WithMany("Places")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("CityTourist.Models.City", b =>

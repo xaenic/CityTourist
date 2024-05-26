@@ -1,0 +1,47 @@
+﻿<!-- Navigation -->
+
+@model Place;
+<div class="relative">
+
+    <nav class="mb-2">
+        <ul class="flex gap-4 font-medium md:space-x-10  justify-center py-8">
+            <li>
+                <a asp-action="Index" class="hover:text-stone-400">Home</a>
+            </li>
+            <li>
+                <a asp-action="Sights" class="font-semibold text-yellow-700 underline underline-offset-8">Sights</a>
+            </li>
+            <li>
+                <a href="#" class="md:hover:text-stone-400">Quick Guides</a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="mt-20 min-h-screen">
+
+        <div class="flex flex-col items-center">
+            <h1 class="text-center text-[5em]  xl:text-[10em] font-bold">@Model.Name</h1>
+            <p class="max-w-[750px] text-center">@Model.Description</p>
+        </div>
+       <div class="mx-20">
+            <h1 class="text-left  text-[4em] font-bold mt-5">Tips</h1>
+            <p class="">@Model.Tips</p>
+       </div>
+        <div class="mx-20">
+            <h1 class="text-left  text-[4em] font-bold mt-5">Route</h1>
+            <p class="">@Model.Routes</p>
+        </div>
+        <h1 class="text-left mx-20  text-[4em] font-bold mt-5">Gallery</h1>
+        <div class="mt-10 grid gap-4 xl:grid-cols-5 mx-20">
+
+            
+            @foreach (var image in Model.Images)
+            {
+                <div class="relative  overflow-hidden w-60 h-60 rounded-[1em]">
+                    <img src="@image" alt="" class="absolute inset-0 w-full h-full object-cover">
+                </div>
+            }
+            
+        </div>
+    </section>
+</div>

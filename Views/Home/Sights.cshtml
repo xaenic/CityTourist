@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "City Sights";
+}
+
+
+<nav class="mb-2">
+    <ul class="flex gap-4 font-medium md:space-x-10  justify-center py-8">
+        <li>
+            <a asp-action="Index" class="hover:text-stone-400">Home</a>
+        </li>
+        <li>
+            <a href="#" class="font-semibold text-yellow-700 underline underline-offset-8">Sights</a>
+        </li>
+        <li>
+            <a href="#" class="md:hover:text-stone-400">Quick Guides</a>
+        </li>
+    </ul>
+</nav>
+<div class="flex items-center justify-center gap-8">
+    <h1 class="text-[10em] font-bold">DISCOVER</h1>
+    <p class="italic text-left text-lg w-[360px]">Watch and see picture perfect spots to view and visit</p>
+</div>
+<h1 class="absolute left-[24%] top-[34%]  text-[10em] font-bold">BEST PLACES</h1>
+
+<div class="container mx-auto mt-44">
+    <div class="flex items-center justify-center w-full rounded-lg overflow-hidden">
+        <video class="w-auto h-[550px] rounded-[2em] mx-16 shadow-lg" autoplay>
+            <source src="~/img/vid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<div class="flex items-center justify-center mt-24 gap-4">
+    <h1 class="text-6xl font-bold w-[650px]">FIND YOUR POPULAR DESTINATIONS</h1>
+    <p class="italic text-left text-lg w-[520px]">
+        Embark on a journey of discovery! Explore our curated list
+        of popular destinations and plan your dream getaway
+        today.
+    </p>
+</div>
+
+<div class="text-4xl mt-8 ml-[200px] font-semibold">
+    Luzon
+</div>
+<div class="flex items-center ml-[200px] justify-start mt-8 gap-2">
+    @foreach(var place in ViewBag.Luzon)
+    {
+        <a href="/home/CityView?id=@place.CityId" class="relative block overflow-hidden w-60 h-60 rounded-[1em]">
+            <img src="@place.Images[0]" alt="" class="absolute inset-0 w-full h-full object-cover">
+            <span class="absolute bottom-4 left-0 text-white text-lg font-semibold ml-4 mb-4">@place.City.Name</span>
+            <span class="absolute bottom-2 left-0 text-white text-md line-clamp-1 ml-4">@place.Name</span>
+        </a>
+    }
+</div>
+
+<div class="text-4xl mt-8 ml-[200px] font-semibold">
+    Visayas
+</div>
+<div class="flex items-center ml-[200px] justify-start mt-8 gap-2">
+    @foreach (var place in ViewBag.Visayas)
+    {
+        <a href="/home/CityView?id=@place.CityId" class="relative block overflow-hidden w-60 h-60 rounded-[1em]">
+            <img src="@place.Images[0]" alt="" class="absolute inset-0 w-full h-full object-cover">
+            <span class="absolute bottom-4 left-0 text-white text-lg font-semibold ml-4 mb-4">@place.City.Name</span>
+            <span class="absolute bottom-2 left-0 text-white text-md line-clamp-1 ml-4">@place.Name</span>
+        </a>
+    }
+</div>
+
+<div class="text-4xl mt-8 ml-[200px] font-semibold">
+    Mindanao
+</div>
+<div class="flex items-center ml-[200px] justify-start mt-8 gap-2">
+    @foreach (var place in ViewBag.Mindanao)
+    {
+        <a href="/home/CityView?id=@place.CityId" class="relative block overflow-hidden w-60 h-60 rounded-[1em]">
+            <img src="@place.Images[0]" alt="" class="absolute inset-0 w-full h-full object-cover">
+            <span class="absolute bottom-4 left-0 text-white text-lg font-semibold ml-4 mb-4">@place.City.Name</span>
+            <span class="absolute bottom-2 left-0 text-white text-md line-clamp-1 ml-4">@place.Name</span>
+        </a>
+    }
+</div>
+
+<div class="mb-8">
+</div>

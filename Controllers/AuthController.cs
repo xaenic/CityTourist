@@ -27,7 +27,7 @@ namespace Flexify.Controllers
 
 
             if (claimUser.Identity.IsAuthenticated)
-                return RedirectToAction("", "App");
+                return RedirectToAction("Index", "Admin");
             return View();
         }
 
