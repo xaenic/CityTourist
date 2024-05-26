@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CityTourist</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/tailwind1.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
@@ -12,21 +14,12 @@
         
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="">
 
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            <div class="select-none  group-hover:block hover:block transition-opacity duration-300  p-3 rounded-md bg-white absolute text-gray-700 w-[150px] left-0">
-                <a asp-controller="Auth" asp-action="Logout" class="text-sm flex justify-start">Logout</a>
-            </div>
-            &copy; 2024 - CityTourist - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privallcy</a>
-        </div>
-        
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

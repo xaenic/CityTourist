@@ -6,15 +6,22 @@ namespace CityTourist.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        private readonly TouristDbContext dbContext;
+
+
+
+        public HomeController(TouristDbContext dbContext)
         {
-            _logger = logger;
+            this.dbContext = dbContext;
         }
-
         public IActionResult Index()
         {
+
+            ViewBag.Luzon = dbContext.City.Where(c => c.State == "Luzon").ToArray();
+            ViewBag.Visayas = dbContext.City.Where(c => c.State == "Visayas").ToArray();
+            ViewBag.Mindanao = dbContext.City.Where(c => c.State == "Mindanao").ToArray();
             return View();
         }
 

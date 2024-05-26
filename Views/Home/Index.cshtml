@@ -1,9 +1,171 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "City Tourist";
 }
 
-<div class="text-center">
-   
-       
-   
+<div class="h-screen bg-cover bg-center overflow-hidden" style="background-image: url('img/a.png'); bacground-size:cover;">
+    <!-- Your content here -->
+    <div class="absolute top-1 left-0 p-5">
+        <h1 class="text-white text-3xl font-bold drop-shadow-md flex-auto">Explore Philippines</h1>
+        <img src="img/7641.png" class="w-2/5 pt-36 pl-4 ">
+        <h1 class="text-white text-2xl font-bold drop-shadow-md pl-20 flex-auto ">ISLANDS OF THE PHILIPPINES</h1>
+        <h1 class="text-white text-2xl  drop-shadow-md pl-20 italic">Explore new local destinations </h1>
+        <h1 class="text-white text-2xl  drop-shadow-md pl-20 italic"> Discover more places to love and visit in the Philippines!  </h1>
+        <h1 class="text-white text-2xl  drop-shadow-md pl-20 italic "> The thrilling adventures await you.  </h1>
+    </div>
+    <!-- box -->
+    <div class="absolute h-full w-2/5 right-0 bg-white shadow-lg p-10">
+        <nav class="mb-8">
+            <ul class="flex flex-col font-medium md:space-x-10 md:flex-row justify-end">
+                <li>
+                    <a href="#" class="md:text-yellow-700 font-semibold" aria-current="page">Home</a>
+                </li>
+                <li>
+                    <a href="sights.html" class="md:hover:text-stone-400">Sights</a>
+                </li>
+                <li>
+                    <a href="#" class="md:hover:text-stone-400">Quick Guides</a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <div class="">
+            <h1 class="text-4xl font-bold mb-4">Welcome!</h1>
+            <div class="flex justify-left  space-x-10">
+                <a href="#" id="luzon"class="text-lg font-semibold ps-10 text-yellow-700  underline underline-offset-8">Luzon</a>
+                <a href="#" id="visayas" class="text-lg md:hover:text-stone-400">Visayas</a>
+                <a href="#" id="mindanao" class="text-lg md:hover:text-stone-400">Mindanao</a>
+            </div>
+        </div>
+
+        <div id="oll" class="luzon overflow-x-scroll flex flex-nowrap justify-left space-x-5">
+            @foreach (var city in ViewBag.Luzon)
+            {
+                <img src="@city.Image" class="object-cover w-40 h-72 py-8 rounded-full">
+            }
+        </div>
+        <div id="oll" class="hidden visayas overflow-x-scroll flex flex-nowrap justify-left space-x-5">
+        @foreach(var city in ViewBag.Visayas)
+        {
+                <img src="@city.Image" class="object-cover w-40 h-72 py-8 rounded-full">
+        }
+        </div>
+        <div id="oll" class="hidden mindanao overflow-x-scroll flex flex-nowrap justify-left space-x-5">
+            @foreach (var city in ViewBag.Mindanao)
+            {
+                <img src="@city.Image" class="object-cover w-40 h-72 py-8 rounded-full">
+            }
+        </div>
+        <h1 class="text-2xl font-semibold mb-4">View Places</h1>
+        <div class="flex justify-left space-x-10">
+            <div class="hover:scale-110 cursor-pointer transition-all duration-200 bg-zinc-50 shadow-2xl w-20 h-32 rounded-full">
+                <div class="flex flex-col items-center space-y-4 pt-2">
+                    <!-- Circle -->
+
+                    <img src="https://source.unsplash.com/400x400/?beach" class=" obgject-cover w-16 h-16 rounded-full " />
+               
+                    <!-- Text -->
+                    <div class="font-medium text-gray-700 text-sm">Beaches</div>
+                </div>
+            </div>
+            <div class="hover:scale-110 cursor-pointer transition-all duration-200 bg-zinc-50 shadow-lg w-20 h-32 rounded-full p-2">
+                <!-- Circle -->
+                <div class="flex flex-col items-center space-y-4 pt-2">
+                    <!-- Circle -->
+
+                    <img src="https://source.unsplash.com/400x400/?Nature" class=" obgject-cover w-16 h-16 rounded-full " />
+
+                    <!-- Text -->
+                    <div class="font-medium text-gray-700 text-sm">Nature</div>
+                </div>
+                <!-- Text -->
+             
+            </div>
+
+            <div class="hover:scale-110 cursor-pointer transition-all duration-200 bg-zinc-50 shadow-lg w-20 h-32 rounded-full p-2">
+                <!-- Circle -->
+                <div class="flex flex-col items-center space-y-4 pt-2">
+                    <!-- Circle -->
+
+                    <img src="https://source.unsplash.com/400x400/?city" class=" obgject-cover w-16 h-16 rounded-full " />
+
+                    <!-- Text -->
+                    <div class="font-medium text-gray-700 text-sm">City</div>
+                </div>
+            </div>
+
+            <div class="hover:scale-110 cursor-pointer transition-all duration-200 bg-zinc-50 shadow-lg w-20 h-32 rounded-full p-2">
+                <!-- Circle -->
+                <div class="flex flex-col items-center space-y-4 pt-2">
+                    <!-- Circle -->
+
+                    <img src="https://source.unsplash.com/400x400/?Mountain" class=" obgject-cover w-16 h-16 rounded-full " />
+
+                    <!-- Text -->
+                    <div class="font-medium text-gray-700 text-sm">Museum</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        const luzon = $('.luzon');
+        const visayas = $('.visayas');
+        const mindanao = $('.mindanao'); 
+
+
+            const lButton = $("#luzon")
+        const vButton = $("#visayas")
+        const mButton = $("#mindanao")
+
+        $("#luzon").click(function () {
+
+            $(this).addClass("underline text-yellow-700");
+            vButton.removeClass("underline text-yellow-700");
+            mButton.removeClass("underline text-yellow-700");
+            luzon.addClass('flex');
+
+            luzon.removeClass('hidden');
+            mindanao.addClass('hidden');
+            visayas.addClass('hidden');
+            visayas.removeClass('flex');
+            mindanao.removeClass('flex');
+        })
+        $("#visayas").click(function () {
+
+            $(this).addClass("underline text-yellow-700");
+            lButton.removeClass("underline text-yellow-700");
+            mButton.removeClass("underline text-yellow-700");
+            visayas.addClass('flex');
+            visayas.removeClass('hidden');
+
+
+            luzon.addClass('hidden');
+            mindanao.addClass('hidden');
+          
+            luzon.removeClass('flex');
+            mindanao.removeClass('flex');
+        })
+        $("#mindanao").click(function () {
+
+            $(this).addClass("underline text-yellow-700");
+            lButton.removeClass("underline text-yellow-700");
+            vButton.removeClass("underline text-yellow-700");
+
+            mindanao.addClass('flex');
+            mindanao.removeClass('hidden');
+
+
+            luzon.addClass('hidden');
+            visayas.addClass('hidden');
+
+            luzon.removeClass('flex');
+            visayas.removeClass('flex');
+        })
+    });
+</script>
