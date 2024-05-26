@@ -25,6 +25,7 @@ namespace CityTourist.Models
                 });
                 context.SaveChanges();
             }
+          
         }
     }
 }
