@@ -77,7 +77,8 @@ namespace CityTourist.Controllers
                 {
                     Name = model.Name,
                     State = model.State,
-                    Image = model.Image
+                    Image = model.Image,
+                    Description = model.Description
                 };
 
                 dbContext.City.Add(newCity);

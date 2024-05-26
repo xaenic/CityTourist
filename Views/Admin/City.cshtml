@@ -53,7 +53,7 @@
                                       <div class="form-group mb-4 mx-6">
                                         <label class="text-xs mb-2">Description of City</label>
                                         <div class="bg-white border p-3 flex rounded-md text-sm ">
-                                            <textarea id="placeTips" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
+                                            <textarea id="Description " name="Description" rows="6" cols="500" type="text" class="text-xs w-full bg-transparent outline-none"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group mb-4 mx-6">
@@ -86,12 +86,14 @@
                         function submitForm() {
                             var cityName = document.getElementById("cityName").value;
                             var cityState = document.getElementById("cityState").value;
+                            var desc = document.getElementById("Description").value;
                             var Image = document.getElementById("Image").value;
 
                             var formData = new FormData();
                             formData.append("Name", cityName);
                             formData.append("Image", Image);
                             formData.append("State", cityState);
+                            formData.append("Description", desc);
 
 
                             fetch("/Admin/Insert", {
